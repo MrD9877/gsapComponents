@@ -1,6 +1,7 @@
 "use client";
 
 import AnimatedComments, { CommentType } from "@/components/AnimatedComments";
+import { useEffect, useState } from "react";
 
 const comments: CommentType[] = [
   {
@@ -60,9 +61,67 @@ const comments: CommentType[] = [
   },
 ];
 export default function CommentSection() {
+  const [timelines, setTimeLines] = useState<gsap.core.Timeline[]>();
+  useEffect(() => {
+    console.log(timelines);
+  }, [timelines]);
   return (
     <div className="bg-[#030014]">
-      <AnimatedComments comments={comments} comentInaRow={5} link="https://dhuruvbansal.online" replace={"redux"} replaceWith="@Redux.js" />;
+      <AnimatedComments setTimeLines={setTimeLines} comments={comments} comentInaRow={5} link="https://dhuruvbansal.online" replace={"redux"} replaceWith="@Redux.js" />;
+      {timelines && (
+        <div className="flex gap-4">
+          <button
+            className="text-black bg-white rounded-4xl px-5 py-2"
+            onClick={() => {
+              timelines.forEach((tween) => {
+                tween.play();
+              });
+            }}
+          >
+            Play()
+          </button>
+          <button
+            className="text-black bg-white rounded-4xl px-5 py-1"
+            onClick={() => {
+              timelines.forEach((tween) => {
+                tween.pause();
+              });
+            }}
+          >
+            Pause()
+          </button>
+          <button
+            className="text-black bg-white rounded-4xl px-5 py-2"
+            onClick={() => {
+              timelines.forEach((tween) => {
+                tween.resume();
+              });
+            }}
+          >
+            Resume()
+          </button>
+          <button
+            className="text-black bg-white rounded-4xl px-5 py-2"
+            onClick={() => {
+              timelines.forEach((tween) => {
+                tween.reverse();
+              });
+            }}
+          >
+            Reverse()
+          </button>
+          <button
+            className="text-black bg-white rounded-4xl px-5 py-2"
+            onClick={() => {
+              timelines.forEach((tween) => {
+                tween.restart();
+              });
+            }}
+          >
+            Restart()
+          </button>
+        </div>
+      )}
     </div>
   );
 }

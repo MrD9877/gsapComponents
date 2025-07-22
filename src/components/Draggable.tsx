@@ -3,6 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
+import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 
@@ -26,8 +27,8 @@ export function DraggableBox({ className = "", children, ...props }: MyComponent
 
 export default function DraggableContainer({ liveSnap, snapOnRelease, gridHeight = 50, gridWidth = 50, className = "", children, ...props }: DraggableContainerType & Omit<MyComponentProps, "ref">) {
   const containerDivRef = useRef<HTMLDivElement>(null);
-  gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable);
-
+  gsap.registerPlugin(ScrollTrigger, Draggable, InertiaPlugin);
+  console.log(gsap.plugins.inertia);
   function update() {
     const containerDiv = containerDivRef.current;
     if (!containerDiv) return;
@@ -39,7 +40,8 @@ export default function DraggableContainer({ liveSnap, snapOnRelease, gridHeight
         autoScroll: 1,
         edgeResistance: 0.65,
         type: "x,y",
-        throwProps: true,
+        // throwProps: true,
+        inertia: true,
         liveSnap: liveSnap,
 
         onRelease: function () {

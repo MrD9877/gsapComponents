@@ -5,7 +5,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-type CommentsType = { comments: CommentType[]; comentInaRow: number };
+type CommentsType = { comments: CommentType[]; comentInaRow: number; setTimeLines: React.Dispatch<React.SetStateAction<gsap.core.Timeline[] | undefined>> };
 type AnimatedCommentsType = (CommentsType & CommentContextType) | CommentsType;
 
 export type CommentType = {
@@ -77,11 +77,11 @@ function CommentsCard({ comment }: { comment: CommentType }) {
 }
 
 export default function AnimatedComments(props: AnimatedCommentsType) {
+  const { comentInaRow, comments, setTimeLines } = props;
   const containerDivRef = useRef<HTMLDivElement>(null);
 
   gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-  const { comentInaRow, comments } = props;
   const [context, setContext] = useState<CommentContextType>();
   const [commentsRow, setCommentsRow] = useState<CommentType[][]>();
 
@@ -116,6 +116,7 @@ export default function AnimatedComments(props: AnimatedCommentsType) {
       const q = context.selector;
       if (!q) return;
       const commentRows = q(".comment-row");
+      const timeLine: gsap.core.Timeline[] = [];
       commentRows.forEach((row: HTMLDivElement) => {
         const rowWidth = row.offsetWidth;
         const commentBoxes = row.querySelectorAll(".comment-box");
@@ -136,19 +137,21 @@ export default function AnimatedComments(props: AnimatedCommentsType) {
             duration: rowWidth / 15,
             ease: "none",
           });
+          timeLine.push(tl);
         });
       });
+      setTimeLines(timeLine);
     },
     { scope: containerDivRef, dependencies: [commentsRow] }
   );
 
   return (
-    <main ref={containerDivRef} className=" min-h-screen w-2/3 mx-auto relative overflow-x-hidden card-section">
+    <main ref={containerDivRef} className=" h-screen w-2/3 mx-auto relative overflow-x-hidden card-section">
       <CommentContext.Provider value={context}>
-        <div className="flex flex-col gap-4 py-8  w-max justify-center items-center absolute left-[-800] z-10">
+        <div className="flex flex-col gap-4 py-8  w-max justify-center items-center absolute left-[-800] z-10 h-max">
           {commentsRow?.map((comments, index) => {
             return (
-              <div data-direction={index % 2 === 0} key={index} className="flex w-max comment-row ">
+              <div data-direction={index % 2 === 0} key={index} className="flex w-max comment-row h-max ">
                 {comments.map((comment, index2) => {
                   return <CommentsCard key={`${index},${index2}`} comment={comment} />;
                 })}

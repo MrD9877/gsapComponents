@@ -49,3 +49,10 @@ img:nth-child(7) {
 img:nth-child(8) {
   grid-area: 27/5/30/15;
 }
+
+.pricing-background-animation div {
+  animation: pricingBackgroundLineAnimation 8s infinite cubic-bezier(0.62, 0.62, 0.14, 1);
+  background: linear-gradient(180deg, rgba(183, 164, 251, 0) 0, #b7a4fb 100%, #8562ff 100%, rgba(133, 98, 255, 0) 0%);
+  height: 150px;
+  transform: translateY(-530px);
+}

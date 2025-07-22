@@ -12,12 +12,12 @@ export default function Home() {
         <Earth map="/8K_earth_daymap.jpg" />
         <OrbitControls enableZoom={false} />
       </Canvas>
-      <Canvas camera={{ position: [0, 0, 2] }}>
+      {/* <Canvas camera={{ position: [0, 0, 2] }}>
         <ambientLight intensity={0.9} />
         <directionalLight position={[3, 2, 1]} intensity={0.6} />
         <Earth map="/8K_suns.jpg" />
         <OrbitControls enableZoom={false} />
-      </Canvas>
+      </Canvas> */}
     </div>
   );
 }

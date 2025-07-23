@@ -1,6 +1,8 @@
 "use client";
 
 import AnimatedComments, { CommentType } from "@/components/AnimatedComments";
+import gsap from "gsap";
+import { Observer } from "gsap/Observer";
 import { useEffect, useState } from "react";
 
 const comments: CommentType[] = [
@@ -62,8 +64,31 @@ const comments: CommentType[] = [
 ];
 export default function CommentSection() {
   const [timelines, setTimeLines] = useState<gsap.core.Timeline[]>();
+  gsap.registerPlugin(Observer);
+
   useEffect(() => {
     console.log(timelines);
+  }, [timelines]);
+
+  useEffect(() => {
+    if (!timelines) return;
+    Observer.create({
+      type: "touch,pointer",
+      target: ".card-section",
+      wheelSpeed: -1,
+
+      onPress: () =>
+        timelines.forEach((tween) => {
+          tween.pause();
+        }),
+
+      onRelease: () =>
+        timelines.forEach((tween) => {
+          tween.reverse(10).then((tl) => tl.play());
+        }),
+      tolerance: 10,
+      preventDefault: true,
+    });
   }, [timelines]);
   return (
     <div className="bg-[#030014]">

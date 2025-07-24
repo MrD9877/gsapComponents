@@ -7,3 +7,9 @@
   <DraggableBox>hi</DraggableBox>
 </DraggableContainer>
 ```
+
+# Create Component from glb
+
+```terminal
+npx gltfjsx public/models/WawaOffice.glb
+```

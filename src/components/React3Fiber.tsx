@@ -2,7 +2,7 @@
 import { OrbitControls, useHelper } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import React, { useRef } from "react";
-import { DirectionalLight, DirectionalLightHelper, Mesh, Object3DEventMap } from "three";
+import { DirectionalLight, DirectionalLightHelper, Mesh } from "three";
 import { useControls } from "leva";
 function Donut() {
   const ring = useRef<Mesh>(null);

@@ -1,6 +1,7 @@
-import OfficePage from "@/office/OfficePage";
+"use client";
+import EnginePage from "@/engine/EnginePage";
 import React from "react";
 
 export default function Page() {
-  return <OfficePage />;
+  return <EnginePage />;
 }
